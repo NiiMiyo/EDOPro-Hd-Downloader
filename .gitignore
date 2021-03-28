@@ -1,0 +1,7 @@
+__pycache__/
+.vscode/
+deck/
+pics/
+
+hd_cards_downloader_tracker
+hd_fields_downloader_tracker

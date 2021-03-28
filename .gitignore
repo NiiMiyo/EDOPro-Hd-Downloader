@@ -2,6 +2,9 @@ __pycache__/
 .vscode/
 deck/
 pics/
+dist/
 
 hd_cards_downloader_tracker
 hd_fields_downloader_tracker
+**~
+

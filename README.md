@@ -2,7 +2,7 @@
 
 Based on [AlexanderRST's Cards Downloader](https://github.com/AlexsanderRST/edopro-hd-cards-downloader)
 
-This programs downloads HD card images from [YGOPRODECK](ygoprodeck.com) database to replace the low resolution version which EDOPro downloads by default.
+This programs downloads HD card images from [YGOPRODECK](https://www.ygoprodeck.com) database to replace the low resolution version which EDOPro downloads by default.
 
 # Installation
 

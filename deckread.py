@@ -11,8 +11,8 @@ def __filter_card_id(cards: list[str]):
     for c in cards:
         try:
             int(c)
-        except Exception:
-            pass
+        except ValueError:
+             continue
         else:
             if c not in ids:
                 ids.append(c)

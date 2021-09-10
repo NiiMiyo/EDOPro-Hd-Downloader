@@ -12,16 +12,15 @@ from tracker import (already_downloaded, card_cache_path, field_cache_path,
 input_string = "Insert deck name (without .ydk) or command: "
 
 
-# Creates trackers files if they do not exist and introduces the program
+# Creates tracker files if they do not exist and introduces the program
 def initialize():
     global card_cache_path, field_cache_path
     for i in (card_cache_path, field_cache_path):
         if not exists(i):
             open(i, "w+").close()
 
-    intro = ["Created by Nii Miyo", "Type \"/help\" for help"]
-    for i in intro:
-        print(i)
+    intro = ["EDOPro HD Downloader", "Created by Nii Miyo", "Type \"/help\" for help"]
+    for i in intro: print(i)
 
 
 # Handles what to do with user input
@@ -44,6 +43,7 @@ def handle_input(_input: str):
         print("Available commands:")
         print("/allcards  - downloads all cards")
         print("/allfields - downloads all fields artworks")
+        print("/exit      - closes the program")
         print("/help      - see this text")
 
     # Closes the program
@@ -62,8 +62,7 @@ def handle_input(_input: str):
 
 # Handles if a card should be downloaded
 def to_download(card_id: int, is_artwork: bool = False):
-    downloaded = already_downloaded(card_id, is_artwork)
-    if not downloaded:
+    if not already_downloaded(card_id, is_artwork):
         download_image(card_id, is_artwork)
         mark_as_downloaded(card_id, is_artwork)
         sleep(.1)

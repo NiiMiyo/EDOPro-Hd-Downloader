@@ -35,7 +35,7 @@ def get_all_fields():
     db.ygoprodeck.comdatabase"""
 
     try:
-        params = "?type=spell%20card&race=field"
+        params = r"?type=spell%20card&race=field"
         request = __request.Request(api_url + params, headers=__headers)
         response = __request.urlopen(request)
     except Exception as e:

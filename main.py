@@ -1,6 +1,7 @@
 from os.path import exists
 from time import sleep
 from traceback import format_exc as __format_exc
+from typing import Optional
 
 from apiaccess import get_all_cards, get_all_fields
 from deckread import get_deck
@@ -19,23 +20,27 @@ def initialize():
         if not exists(i):
             open(i, "w+").close()
 
-    intro = ["EDOPro HD Downloader", "Created by Nii Miyo", "Type \"/help\" for help"]
-    for i in intro: print(i)
+    intro = [
+        "EDOPro HD Downloader",
+        "Created by Nii Miyo",
+        "Type \"/help\" for help"
+    ]
+    print("\n".join(intro))
 
 
 # Handles what to do with user input
-def handle_input(_input: str):
+def handle_input(_input: str) -> tuple[Optional[list[int]], bool]:
     """Should return a tuple which the first element is a list with cards to
     download and the second is a boolean indicating if should download only
     the artwork at fields folder"""
 
     # Downloads all cards images
     if _input == "/allcards":
-        return (get_all_cards(), False)
+        return get_all_cards(), False
 
     # Downloads all field spell cards artworks
     elif _input == "/allfields":
-        return (get_all_fields(), True)
+        return get_all_fields(), True
 
     # Help command
     elif _input == "/help":
@@ -54,10 +59,10 @@ def handle_input(_input: str):
     # Since none of the commands where triggered, searchs for a deck
     # which name equals input
     else:
-        return (get_deck(_input), False)
+        return get_deck(_input), False
 
     # Default return for non-download commands
-    return (list(), False)
+    return list(), False
 
 
 # Handles if a card should be downloaded

@@ -1,9 +1,5 @@
 # EDOPro HD Downloader
 
-Based on [AlexanderRST's Cards Downloader](https://github.com/AlexsanderRST/edopro-hd-cards-downloader)
-
-This programs downloads HD card images from [YGOPRODECK](https://www.ygoprodeck.com) database to replace the low resolution version which EDOPro downloads by default.
-
 # Installation
 
 ## Windows
@@ -21,7 +17,7 @@ If you run the program and read the instructions you should be fine.
 
 But for short:
 
-- Insert the name of your deck (without the `.ydk` extension) when asked to download all the images of the cards in it.
+- Insert the name of your deck (without the `.ydk`) extension when asked to download all the images of the cards in it.
 
 - Insert `/allcards` to download images for all cards. Will probably take a while.
 

@@ -4,11 +4,11 @@ from json import loads as __loads
 
 api_url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
 __headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0"
+    "User-Agent": "NiiMiyo-EDOPro-HD-Downloader/1.0"
 }
 
 
-def __get_ids_from_api_response(response: __HTTPResponse):
+def __get_ids_from_api_response(response: __HTTPResponse) -> list[int]:
     """Returns only the ids of the cards requested"""
 
     data = __loads(response.read()).get("data")
@@ -16,7 +16,7 @@ def __get_ids_from_api_response(response: __HTTPResponse):
     return ids
 
 
-def get_all_cards():
+def get_all_cards() -> list[int]:
     """Returns the ids of all Yu-Gi-Oh! cards in
     db.ygoprodeck.com database"""
 
@@ -30,7 +30,7 @@ def get_all_cards():
         return __get_ids_from_api_response(response)
 
 
-def get_all_fields():
+def get_all_fields() -> list[int]:
     """Returns the ids of all Yu-Gi-Oh! Field Spell cards in
     db.ygoprodeck.comdatabase"""
 

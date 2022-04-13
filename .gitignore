@@ -3,6 +3,7 @@ __pycache__/
 deck/
 pics/
 dist/
+bin/
 
 hd_cards_downloader_tracker
 hd_fields_downloader_tracker

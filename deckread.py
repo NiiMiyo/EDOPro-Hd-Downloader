@@ -1,13 +1,14 @@
 from os.path import exists as __exists, join as __join
+from typing import Optional
 
 deck_folder_path = "./deck/"
 
 
-def __filter_card_id(cards: list[str]):
+def __filter_card_id(cards: list[str]) -> list[int]:
     """Filters an list with card ids to remove
     repeating ones and non-ids"""
 
-    ids = list()
+    ids: list[int] = list()
     for c in cards:
         try:
             int(c)
@@ -15,11 +16,11 @@ def __filter_card_id(cards: list[str]):
              continue
         else:
             if c not in ids:
-                ids.append(c)
+                ids.append(int(c))
     return ids
 
 
-def get_deck(deck_name: str):
+def get_deck(deck_name: str) -> Optional[list[int]]:
     """Reads a deck file and returns the
     ids of the cards in it"""
 

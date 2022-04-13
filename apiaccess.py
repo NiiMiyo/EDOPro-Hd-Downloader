@@ -24,7 +24,7 @@ def get_all_cards() -> list[int]:
         request = __request.Request(api_url, headers=__headers)
         response = __request.urlopen(request)
     except Exception as e:
-        print(e)
+        print(f"Error fetching db.ygoprodeck.com: {e}")
         return list()
     else:
         return __get_ids_from_api_response(response)

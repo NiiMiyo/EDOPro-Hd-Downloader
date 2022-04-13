@@ -19,5 +19,5 @@ def download_image(card_id: int, is_artwork: bool = False):
         return True
 
     except Exception as e:
-        print(e)
+        print(f"Error downloading '{card_id}': {e}")
         return False

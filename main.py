@@ -1,6 +1,6 @@
 from os.path import exists
 from time import sleep
-from traceback import format_exc as __format_exc
+from traceback import print_exc
 from typing import Optional
 
 from apiaccess import get_all_cards, get_all_fields
@@ -53,7 +53,7 @@ def handle_input(_input: str) -> tuple[Optional[list[int]], bool, bool]:
             "/force <input> - executes <input> ignoring trackers",
             "/exit          - closes the program",
             "/help          - see this text",
-        ]))
+        ]), end="")
 
     # Force command
     elif _input.startswith("/force "):
@@ -87,43 +87,31 @@ def main():
 
     try:
         while True:
-            user_input = input(INPUT_STRING)
-            cards, is_artwork, force = handle_input(user_input)
-
-            # If found what to download
-            if cards is not None:
-                total_cards = len(cards)
-
-                # For each card, download
-                for i in range(total_cards):
-                    c = cards[i]
-                    to_download(c, is_artwork, force)
-
-                    # Prints progress
-                    print(
-                        f"Downloaded {i+1}/{total_cards} -",
-                        f"{(((i+1)/total_cards) * 100):.2f}" + "%",
-                        end="\r"
-                    )
-
-                # Help command had 2 newlines at end
-                if total_cards > 0:
-                    print()
+            cards, is_artwork, force = handle_input( input(INPUT_STRING) )
 
             # If couldn't find what to download
-            else:
+            if cards is None:
                 print("Deck or command not found.")
-            print()
+                continue
+
+            total_cards = len(cards)
+
+            # For each card, download
+            for index, card_id in enumerate(cards, 1):
+                to_download(card_id, is_artwork, force)
+
+                # Prints progress
+                raw_progress = f"{index}/{total_cards}"
+                percentage   = f"{((index * 100) / total_cards):.2f}%"
+                print(f"Downloaded {raw_progress} - {percentage}", end="\r")
+
+            print("\n")
 
     # In case of interrupting the program with Ctrl+C
-    except KeyboardInterrupt:
-        print("\n\nForcing program interruption...")
+    except KeyboardInterrupt: print("\n\nForcing program interruption...")
 
     # In case of a not expected exception
-    except Exception:
-        print(__format_exc())
-        exit()
+    except Exception: print_exc()
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()

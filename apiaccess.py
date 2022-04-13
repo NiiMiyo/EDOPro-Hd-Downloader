@@ -4,7 +4,7 @@ from json import loads as __loads
 
 api_url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
 __headers = {
-    "User-Agent": "NiiMiyo-EDOPro-HD-Downloader/1.0"
+    "User-Agent": "NiiMiyo-EDOPro-HD-Downloader/1.1"
 }
 
 

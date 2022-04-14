@@ -12,7 +12,12 @@ def __get_ids_from_api_response(response: __HTTPResponse) -> list[int]:
     """Returns only the ids of the cards requested"""
 
     data = __loads(response.read()).get("data")
-    ids = [c.get("id") for c in data]
+    ids: list[int] = list()
+
+    for card in data:
+        for image in card.get("card_images"):
+            ids.append(image.get("id"))
+
     return ids
 
 

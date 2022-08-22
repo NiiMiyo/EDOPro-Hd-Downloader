@@ -36,6 +36,11 @@ def handle_input(_input: str) -> tuple[Optional[list[int]], bool, bool]:
     _input = _input.strip()
 
     # Downloads all cards images
+    if _input == "/all":
+        return get_all_cards(), False, False
+        return get_all_fields(), True, False
+
+    # Downloads all cards images
     if _input == "/allcards":
         return get_all_cards(), False, False
 

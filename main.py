@@ -55,6 +55,7 @@ def handle_input(_input: str) -> tuple[Optional[list[int]], bool, bool]:
         print("\n".join([
             "Press Ctrl+C while downloading to force-stop the program",
             "Available commands:",
+            "/all           - downloads all cards and field artworks",
             "/allcards      - downloads all cards",
             "/allfields     - downloads all fields artworks",
             "/force <input> - executes <input> ignoring trackers",

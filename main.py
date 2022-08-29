@@ -106,6 +106,7 @@ def main():
                 fields = get_all_fields()
                 force = False
                 is_all = True
+
             else:
                 cards, is_artwork, force = inp
 
@@ -121,10 +122,10 @@ def main():
                 print("Downloading cards")
                 # For each card, download
                 
-                for index, id in enumerate(cards, 1):
+                for index, card_id in enumerate(cards, 1):
                     to_download(card_id, index, total_cards, False, False)
 
-                for index, id in enumerate(fields, 1):
+                for index, card_id in enumerate(fields, 1):
                     to_download(card_id, index, total_fields, True, False)
                 
             else:
@@ -133,7 +134,7 @@ def main():
                 # For each card, download
                 for index, card_id in enumerate(cards, 1):
                     to_download(card_id, index, total_cards, is_artwork, force)
-                    
+
             print("\n")
 
     # In case of interrupting the program with Ctrl+C

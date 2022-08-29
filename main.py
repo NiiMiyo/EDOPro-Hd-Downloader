@@ -115,6 +115,7 @@ def main():
                 for index, card_id in enumerate(cards, 1):
                     to_download(card_id, index, total_cards, False, force)
 
+                print("Downloading fields")
                 # For each card, download
                 for index, card_id in enumerate(fields, 1):
                     to_download(card_id, index, total_fields, True, force)

@@ -107,6 +107,18 @@ def main():
                 force = False
                 is_all = True
 
+                total_cards = len(cards)
+                total_fields = len(fields)
+
+                print("Downloading cards")
+                # For each card, download
+                for index, card_id in enumerate(cards, 1):
+                    to_download(card_id, index, total_cards, False, force)
+
+                # For each card, download
+                for index, card_id in enumerate(fields, 1):
+                    to_download(card_id, index, total_fields, True, force)
+
             else:
                 cards, is_artwork, force = inp
 
@@ -115,20 +127,7 @@ def main():
                 print("Deck or command not found.")
                 continue
 
-            if is_all:
-                total_cards = len(cards)
-                total_fields = len(fields)
-
-                print("Downloading cards")
-                # For each card, download
-                
-                for index, card_id in enumerate(cards, 1):
-                    to_download(card_id, index, total_cards, False, False)
-
-                for index, card_id in enumerate(fields, 1):
-                    to_download(card_id, index, total_fields, True, False)
-                
-            else:
+            elif not(is_all):
                 total_cards = len(cards)
 
                 # For each card, download

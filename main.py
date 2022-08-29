@@ -9,6 +9,8 @@ from downloader import download_image
 from tracker import (already_downloaded, card_cache_path, field_cache_path,
                      mark_as_downloaded)
 
+from pprint import pprint
+
 # String that appears at user input
 INPUT_STRING = "Insert deck name (without .ydk) or command: "
 
@@ -37,10 +39,7 @@ def handle_input(_input: str) -> tuple[Optional[list[int]], bool, bool]:
 
     # Downloads all cards images and field spell artworks
     if _input == "/all":
-        print("Downloading all card artworks")
-        return get_all_cards(), False, False
-        print("Downloading all field")
-        return get_all_fields(), True, False
+        return "all"
 
     # Downloads all cards images
     if _input == "/allcards":
@@ -95,23 +94,57 @@ def main():
 
     try:
         while True:
-            cards, is_artwork, force = handle_input( input(INPUT_STRING) )
+            inp = handle_input( input(INPUT_STRING) )
+
+            is_all = False
+
+            if type(inp) == str:
+                cards = get_all_cards()
+                fields = get_all_fields()
+                force = False
+                is_all = True
+            else:
+                cards, is_artwork, force = inp
 
             # If couldn't find what to download
             if cards is None:
                 print("Deck or command not found.")
                 continue
 
-            total_cards = len(cards)
+            if is_all:
+                total_cards = len(cards)
+                total_fields = len(fields)
 
-            # For each card, download
-            for index, card_id in enumerate(cards, 1):
-                to_download(card_id, is_artwork, force)
+                print("Downloading cards")
+                # For each card, download
+                for index, card_id in enumerate(cards, 1):
+                    to_download(card_id, False, force)
 
-                # Prints progress
-                raw_progress = f"{index}/{total_cards}"
-                percentage   = f"{((index * 100) / total_cards):.2f}%"
-                print(f"Downloaded {raw_progress} - {percentage}", end="\r")
+                    # Prints progress
+                    raw_progress = f"{index}/{total_cards}"
+                    percentage   = f"{((index * 100) / total_cards):.2f}%"
+                    print(f"Downloaded {raw_progress} - {percentage}", end="\r")
+
+                print("Downloading cards")
+                # For each field, download
+                for index, field_id in enumerate(fields, 1):
+                    to_download(fields_id, True, force)
+
+                    # Prints progress
+                    raw_progress = f"{index}/{total_fields}"
+                    percentage   = f"{((index * 100) / total_fields):.2f}%"
+                    print(f"Downloaded {raw_progress} - {percentage}", end="\r")
+            else:
+                total_cards = len(cards)
+
+                # For each card, download
+                for index, card_id in enumerate(cards, 1):
+                    to_download(card_id, is_artwork, force)
+
+                    # Prints progress
+                    raw_progress = f"{index}/{total_cards}"
+                    percentage   = f"{((index * 100) / total_cards):.2f}%"
+                    print(f"Downloaded {raw_progress} - {percentage}", end="\r")
 
             print("\n")
 

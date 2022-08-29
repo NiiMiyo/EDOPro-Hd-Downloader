@@ -82,12 +82,15 @@ def handle_input(_input: str) -> tuple[Optional[list[int]], bool, bool]:
 
 
 # Handles if a card should be downloaded
-def to_download(card_id: int, is_artwork: bool = False, force: bool = False):
+def to_download(card_id: int, index: int, total: int, is_artwork: bool = False, force: bool = False):
     if (force) or (not already_downloaded(card_id, is_artwork)):
         download_image(card_id, is_artwork)
         mark_as_downloaded(card_id, is_artwork)
         sleep(.1)
 
+        raw_progress = f"{index}/{total}"
+        percentage   = f"{((index * 100) / total):.2f}%"
+        print(f"Downloaded {raw_progress} - {percentage}", end="\r")
 
 def main():
     initialize()
@@ -117,35 +120,20 @@ def main():
 
                 print("Downloading cards")
                 # For each card, download
-                for index, card_id in enumerate(cards, 1):
-                    to_download(card_id, False, force)
+                
+                for index, id in enumerate(cards, 1):
+                    to_download(card_id, index, total_cards, False, False)
 
-                    # Prints progress
-                    raw_progress = f"{index}/{total_cards}"
-                    percentage   = f"{((index * 100) / total_cards):.2f}%"
-                    print(f"Downloaded {raw_progress} - {percentage}", end="\r")
-
-                print("Downloading cards")
-                # For each field, download
-                for index, field_id in enumerate(fields, 1):
-                    to_download(fields_id, True, force)
-
-                    # Prints progress
-                    raw_progress = f"{index}/{total_fields}"
-                    percentage   = f"{((index * 100) / total_fields):.2f}%"
-                    print(f"Downloaded {raw_progress} - {percentage}", end="\r")
+                for index, id in enumerate(fields, 1):
+                    to_download(card_id, index, total_fields, True, False)
+                
             else:
                 total_cards = len(cards)
 
                 # For each card, download
                 for index, card_id in enumerate(cards, 1):
-                    to_download(card_id, is_artwork, force)
-
-                    # Prints progress
-                    raw_progress = f"{index}/{total_cards}"
-                    percentage   = f"{((index * 100) / total_cards):.2f}%"
-                    print(f"Downloaded {raw_progress} - {percentage}", end="\r")
-
+                    to_download(card_id, index, total_cards, is_artwork, force)
+                    
             print("\n")
 
     # In case of interrupting the program with Ctrl+C

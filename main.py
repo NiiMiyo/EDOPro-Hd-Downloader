@@ -1,9 +1,9 @@
 from os.path import exists
 from time import sleep
 from traceback import print_exc
-from typing import Optional
 
-from apiaccess import get_all_cards, get_all_fields
+from commands.typing import DownloadCard, CommandReturn
+from commands.utils import command_matches, COMMANDS
 from deckread import get_deck
 from downloader import download_image
 from tracker import (already_downloaded, card_cache_path, field_cache_path,
@@ -11,7 +11,6 @@ from tracker import (already_downloaded, card_cache_path, field_cache_path,
 
 # String that appears at user input
 INPUT_STRING = "Insert deck name (without .ydk) or command: "
-
 
 # Creates tracker files if they do not exist and introduces the program
 def initialize():
@@ -28,57 +27,23 @@ def initialize():
 
 
 # Handles what to do with user input
-def handle_input(_input: str) -> tuple[Optional[list[int]], bool, bool]:
+def handle_input(_input: str) -> CommandReturn:
     """Should return a tuple which the first element is a list with cards to
     download and the second is a boolean indicating if should download only
     the artwork at fields folder"""
 
-    _input = _input.strip()
+    for cmd in COMMANDS:
+        if command_matches(_input, cmd):
+            return cmd.action(_input)
 
-    # Downloads all cards images
-    if _input == "/allcards":
-        return get_all_cards(), False, False
-
-    # Downloads all field spell cards artworks
-    elif _input == "/allfields":
-        return get_all_fields(), True, False
-
-    # Help command
-    elif _input == "/help":
-        print("\n".join([
-            "Press Ctrl+C while downloading to force-stop the program",
-            "Available commands:",
-            "/allcards      - downloads all cards",
-            "/allfields     - downloads all fields artworks",
-            "/force <input> - executes <input> ignoring trackers",
-            "/exit          - closes the program",
-            "/help          - see this text",
-        ]), end="")
-
-    # Force command
-    elif _input.startswith("/force "):
-        response = handle_input(_input[7:])
-        return response[0], response[1], True
-
-    # Closes the program
-    elif _input == "/exit":
-        print("Bye bye <3")
-        exit(0)
-
-    # Since none of the commands where triggered, searchs for a deck
-    # which name equals input
-    else:
-        return get_deck(_input), False, False
-
-    # Default return for non-download commands
-    return list(), False, False
+    return get_deck(_input)
 
 
 # Handles if a card should be downloaded
-def to_download(card_id: int, is_artwork: bool = False, force: bool = False):
-    if (force) or (not already_downloaded(card_id, is_artwork)):
-        download_image(card_id, is_artwork)
-        mark_as_downloaded(card_id, is_artwork)
+def to_download(card: DownloadCard):
+    if (card.force) or (not already_downloaded(card.card_id, card.artwork)):
+        download_image(card.card_id, card.artwork)
+        mark_as_downloaded(card.card_id, card.artwork)
         sleep(.1)
 
 
@@ -87,18 +52,18 @@ def main():
 
     try:
         while True:
-            cards, is_artwork, force = handle_input( input(INPUT_STRING) )
+            cards = handle_input( input(INPUT_STRING) )
 
             # If couldn't find what to download
-            if cards is None:
+            if len(cards) == 0:
                 print("Deck or command not found.")
                 continue
 
             total_cards = len(cards)
 
             # For each card, download
-            for index, card_id in enumerate(cards, 1):
-                to_download(card_id, is_artwork, force)
+            for index, card in enumerate(cards, 1):
+                to_download(card)
 
                 # Prints progress
                 raw_progress = f"{index}/{total_cards}"

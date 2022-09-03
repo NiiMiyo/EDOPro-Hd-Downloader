@@ -4,6 +4,6 @@ DISTPATH  = ./bin
 
 build:
 	pyinstaller main.py -y --distpath "$(DISTPATH)" -F --specpath "$(DISTPATH)" -n "$(FILENAME)" -c --clean
-	cp $(LICENSE) $(DISTPATH)/$(LICENSE)
+	cp "$(LICENSE)" "$(DISTPATH)/$(LICENSE)"
 
 	rm -rf build

@@ -54,11 +54,12 @@ def main():
         while True:
             cards = handle_input( input(INPUT_STRING) )
 
-            total_cards = len(cards)
             # If couldn't find what to download
-            if total_cards == 0:
+            if cards is None:
                 print("Deck or command not found.")
                 continue
+
+            total_cards = len(cards)
 
             # For each card, download
             for index, card in enumerate(cards, 1):

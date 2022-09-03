@@ -1,4 +1,4 @@
-from typing import Callable, NamedTuple
+from typing import Callable, NamedTuple, Optional
 
 
 class DownloadCard(NamedTuple):
@@ -7,7 +7,7 @@ class DownloadCard(NamedTuple):
     force: bool = False
 
 
-CommandReturn = list[DownloadCard]
+CommandReturn = Optional[list[DownloadCard]]
 CommandAction = Callable[[str], CommandReturn]
 
 

@@ -31,6 +31,6 @@ def get_deck(deck_name: str) -> CommandReturn:
     deck = open(deck_path, mode="r", encoding="utf8")
     cards = __filter_card_id([l.strip() for l in deck.readlines()])
     return [
-        DownloadCard(c, False, False)
+        DownloadCard(c, False)
         for c in cards
     ]

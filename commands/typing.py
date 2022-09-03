@@ -4,7 +4,7 @@ from typing import Callable, NamedTuple
 class DownloadCard(NamedTuple):
     card_id: int
     artwork: bool
-    force: bool
+    force: bool = False
 
 
 CommandReturn = list[DownloadCard]

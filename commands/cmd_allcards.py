@@ -3,7 +3,7 @@ from apiaccess import get_all_cards
 
 def __cmd_all_cards_action(_: str) -> CommandReturn:
     return [
-        DownloadCard(c, False, False)
+        DownloadCard(c, False)
         for c in get_all_cards()
     ]
 

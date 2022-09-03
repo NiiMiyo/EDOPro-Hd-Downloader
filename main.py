@@ -2,8 +2,9 @@ from os.path import exists
 from time import sleep
 from traceback import print_exc
 
-from commands.typing import DownloadCard, CommandReturn
-from commands.utils import command_matches, COMMANDS
+from commands.cmd_help import COMMANDS
+from commands.typing import CommandReturn, DownloadCard
+from commands.utils import command_matches
 from deckread import get_deck
 from downloader import download_image
 from tracker import (already_downloaded, card_cache_path, field_cache_path,
@@ -26,11 +27,11 @@ def initialize():
     ]))
 
 
-# Handles what to do with user input
 def handle_input(user_input: str) -> CommandReturn:
-    """Should return a tuple which the first element is a list with cards to
-    download and the second is a boolean indicating if should download only
-    the artwork at fields folder"""
+    """Handles an user input and returns a CommandReturn according to the
+    matching command or deck with same name.
+
+    Returns None if couldn't find what do download"""
 
     for cmd in COMMANDS:
         if command_matches(user_input, cmd):
@@ -39,8 +40,8 @@ def handle_input(user_input: str) -> CommandReturn:
     return get_deck(user_input)
 
 
-# Handles if a card should be downloaded
 def to_download(card: DownloadCard):
+    """Handles if a card should be downloaded and downloads it"""
     if (card.force) or (not already_downloaded(card)):
         download_image(card)
         mark_as_downloaded(card)

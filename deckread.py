@@ -27,7 +27,7 @@ def get_deck(deck_name: str) -> CommandReturn:
     deck_path = __join(deck_folder_path, f"{deck_name}.ydk")
     deck_exists = __exists(deck_path)
     if not deck_exists:
-        return []
+        return None
     deck = open(deck_path, mode="r", encoding="utf8")
     cards = __filter_card_id([l.strip() for l in deck.readlines()])
     return [

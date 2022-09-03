@@ -27,23 +27,23 @@ def initialize():
 
 
 # Handles what to do with user input
-def handle_input(_input: str) -> CommandReturn:
+def handle_input(user_input: str) -> CommandReturn:
     """Should return a tuple which the first element is a list with cards to
     download and the second is a boolean indicating if should download only
     the artwork at fields folder"""
 
     for cmd in COMMANDS:
-        if command_matches(_input, cmd):
-            return cmd.action(_input)
+        if command_matches(user_input, cmd):
+            return cmd.action(user_input)
 
-    return get_deck(_input)
+    return get_deck(user_input)
 
 
 # Handles if a card should be downloaded
 def to_download(card: DownloadCard):
-    if (card.force) or (not already_downloaded(card.card_id, card.artwork)):
-        download_image(card.card_id, card.artwork)
-        mark_as_downloaded(card.card_id, card.artwork)
+    if (card.force) or (not already_downloaded(card)):
+        download_image(card)
+        mark_as_downloaded(card)
         sleep(.1)
 
 
@@ -54,12 +54,11 @@ def main():
         while True:
             cards = handle_input( input(INPUT_STRING) )
 
+            total_cards = len(cards)
             # If couldn't find what to download
-            if len(cards) == 0:
+            if total_cards == 0:
                 print("Deck or command not found.")
                 continue
-
-            total_cards = len(cards)
 
             # For each card, download
             for index, card in enumerate(cards, 1):

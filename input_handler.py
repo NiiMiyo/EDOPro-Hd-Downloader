@@ -3,10 +3,11 @@ from commands.typing import CommandReturn
 from deckread import get_deck
 
 def handle_input(user_input: str) -> CommandReturn:
-    """Handles an user input and returns a CommandReturn according to the
+    """Handles an user input and returns a `CommandReturn` according to the
     matching command or deck with same name.
 
-    Returns None if couldn't find what do download"""
+    Returns `None` if couldn't find what do download
+    """
 
     command = CommandHandler.get_command(user_input)
     if command is None:

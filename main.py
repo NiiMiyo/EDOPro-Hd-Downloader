@@ -12,8 +12,11 @@ from tracker import (already_downloaded, card_cache_path, field_cache_path,
 # String that appears at user input
 INPUT_STRING = "Insert deck name (without .ydk) or command: "
 
-# Creates tracker files if they do not exist and introduces the program
 def initialize():
+    """Creates tracker files if they do not exist, setups all commands and
+    introduces the program
+    """
+
     global card_cache_path, field_cache_path
     for i in card_cache_path, field_cache_path:
         if not exists(i):
@@ -29,7 +32,8 @@ def initialize():
 
 
 def to_download(card: DownloadCard):
-    """Handles if a card should be downloaded and downloads it"""
+    """Handles if a card should be downloaded and downloads it."""
+
     if (card.force) or (not already_downloaded(card)):
         download_image(card)
         mark_as_downloaded(card)

@@ -1,6 +1,7 @@
 from os.path import exists
 from time import sleep
 from traceback import print_exc
+from commands.setup import setup_commands
 
 from input_handler import handle_input
 from commands.typing import DownloadCard
@@ -17,6 +18,8 @@ def initialize():
     for i in card_cache_path, field_cache_path:
         if not exists(i):
             open(i, "w+").close()
+
+    setup_commands()
 
     print("\n".join([
         "EDOPro HD Downloader",

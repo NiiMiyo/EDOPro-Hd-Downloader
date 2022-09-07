@@ -1,6 +1,5 @@
+from command_handler import CommandHandler
 from commands.typing import CommandReturn
-from commands.utils import command_matches
-from commands.cmd_help import COMMANDS
 from deckread import get_deck
 
 def handle_input(user_input: str) -> CommandReturn:
@@ -9,8 +8,8 @@ def handle_input(user_input: str) -> CommandReturn:
 
     Returns None if couldn't find what do download"""
 
-    for cmd in COMMANDS:
-        if command_matches(user_input, cmd):
-            return cmd.action(user_input)
-
-    return get_deck(user_input)
+    command = CommandHandler.get_command(user_input)
+    if command is None:
+        return get_deck(user_input)
+    else:
+        return command.action(user_input)

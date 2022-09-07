@@ -17,6 +17,9 @@ class DownloaderCommand(NamedTuple):
     action: CommandAction
     shown_name: Optional[str] = None
 
+    def match_string(self) -> str:
+        return f"/{self.name}"
+
     def get_shown_name(self) -> str:
         if self.shown_name is None:
             return self.name

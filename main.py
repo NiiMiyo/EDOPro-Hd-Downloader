@@ -2,10 +2,8 @@ from os.path import exists
 from time import sleep
 from traceback import print_exc
 
-from commands.cmd_help import COMMANDS
-from commands.typing import CommandReturn, DownloadCard
-from commands.utils import command_matches
-from deckread import get_deck
+from input_handler import handle_input
+from commands.typing import DownloadCard
 from downloader import download_image
 from tracker import (already_downloaded, card_cache_path, field_cache_path,
                      mark_as_downloaded)
@@ -25,19 +23,6 @@ def initialize():
         "Created by Nii Miyo",
         "Type \"/help\" for help"
     ]))
-
-
-def handle_input(user_input: str) -> CommandReturn:
-    """Handles an user input and returns a CommandReturn according to the
-    matching command or deck with same name.
-
-    Returns None if couldn't find what do download"""
-
-    for cmd in COMMANDS:
-        if command_matches(user_input, cmd):
-            return cmd.action(user_input)
-
-    return get_deck(user_input)
 
 
 def to_download(card: DownloadCard):

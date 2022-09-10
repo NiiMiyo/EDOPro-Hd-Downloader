@@ -5,6 +5,7 @@ pics/
 build/
 dist/
 bin/
+workpath_pyinstaller/
 
 hd_cards_downloader_tracker
 hd_fields_downloader_tracker

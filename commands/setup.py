@@ -6,3 +6,4 @@ def setup_commands():
     import commands.cmd_exit as _
     import commands.cmd_force as _
     import commands.cmd_help as _
+    import commands.cmd_all as _

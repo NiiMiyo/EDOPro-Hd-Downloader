@@ -3,9 +3,10 @@ from os.path import join as __join
 
 from commands.typing import DownloadCard
 
-def download_image(card: DownloadCard):
-    """Downloads the card image or artwork and
-    puts in the specified folder"""
+def download_image(card: DownloadCard) -> bool:
+    """Downloads the card image or artwork and puts in the specified folder.
+
+    Returns `True` if downloads successfully, otherwise returns `False`."""
 
     img_url = "https://storage.googleapis.com/ygoprodeck.com/pics"
     if not card.artwork:

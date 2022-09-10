@@ -35,8 +35,8 @@ def to_download(card: DownloadCard):
     """Handles if a card should be downloaded and downloads it."""
 
     if (card.force) or (not already_downloaded(card)):
-        download_image(card)
-        mark_as_downloaded(card)
+        success = download_image(card)
+        if success: mark_as_downloaded(card)
         sleep(.1)
 
 

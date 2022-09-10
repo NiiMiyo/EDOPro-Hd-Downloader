@@ -9,7 +9,7 @@ def handle_input(user_input: str) -> CommandReturn:
     Returns `None` if couldn't find what do download
     """
 
-    command = CommandHandler.get_command(user_input)
+    command = CommandHandler.find_command(user_input)
     if command is None:
         return get_deck(user_input)
     else:

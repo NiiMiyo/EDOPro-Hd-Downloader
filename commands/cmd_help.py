@@ -6,7 +6,12 @@ def __cmd_help_action(_: str) -> CommandReturn:
     cmd_column_len = 0
     lines: list[tuple[str, str]] = list()
 
-    for cmd in CommandHandler.commands:
+    command_list = sorted(
+        CommandHandler.commands.values(),
+        key=lambda cmd: cmd.name
+    )
+
+    for cmd in command_list:
         sn = cmd.get_shown_name()
 
         lines.append((sn, cmd.help_text))

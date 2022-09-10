@@ -6,7 +6,7 @@ API_URL = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
 """Base API URL for YGOProDeck"""
 
 API_HEADER = {
-    "User-Agent": "NiiMiyo-EDOPro-HD-Downloader/1.1.1"
+    "User-Agent": "NiiMiyo-EDOPro-HD-Downloader/2"
 }
 """Header JSON to be used in an API request"""
 

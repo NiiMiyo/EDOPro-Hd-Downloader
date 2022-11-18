@@ -2,30 +2,29 @@ from os.path import exists
 from time import sleep
 from traceback import print_exc
 from commands.setup import setup_commands
+from constants import DOWNLOADER_VERSION, INPUT_STRING, SETUP_CREATION_FILES
 
 from input_handler import handle_input
 from commands.typing import DownloadCard
-from downloader import download_image
-from tracker import (already_downloaded, card_cache_path, field_cache_path,
-                     mark_as_downloaded)
+from web_access.downloader import download_image
+from tracker import (already_downloaded, mark_as_downloaded)
 
-# String that appears at user input
-INPUT_STRING = "Insert deck name (without .ydk) or command: "
 
 def initialize():
     """Creates tracker files if they do not exist, setups all commands and
     introduces the program
     """
 
-    global card_cache_path, field_cache_path
-    for i in card_cache_path, field_cache_path:
-        if not exists(i):
-            open(i, "w+").close()
+    for f in SETUP_CREATION_FILES:
+        if not exists(f):
+            with open(f, "w+"):
+                # I only need that the files exist
+                pass
 
     setup_commands()
 
     print("\n".join([
-        "EDOPro HD Downloader",
+        f"EDOPro HD Downloader v{DOWNLOADER_VERSION}",
         "Created by Nii Miyo",
         "Type \"/help\" for help"
     ]))
@@ -37,7 +36,7 @@ def to_download(card: DownloadCard):
     if (card.force) or (not already_downloaded(card)):
         success = download_image(card)
         if success: mark_as_downloaded(card)
-        sleep(.1)
+        sleep(.5)
 
 
 def main():

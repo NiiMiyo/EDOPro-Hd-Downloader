@@ -1,17 +1,14 @@
 from commands.typing import DownloadCard
+from constants import CARD_CACHE_PATH, FIELD_CACHE_PATH
 
-
-card_cache_path = "./hd_cards_downloader_tracker"
-field_cache_path = "./hd_fields_downloader_tracker"
 
 def __get_cached(is_artwork: bool):
     """Reads tracker file and returns a list of ids
     that already were downloaded"""
 
-    cache = field_cache_path if is_artwork else card_cache_path
-    cache_file = open(cache, mode="r+", encoding="utf8")
-    cards = [c.strip() for c in cache_file.readlines()]
-    cache_file.close()
+    cache = FIELD_CACHE_PATH if is_artwork else CARD_CACHE_PATH
+    with open(cache, mode="r+", encoding="utf8") as cache_file:
+        cards = [c.strip() for c in cache_file.readlines()]
     return cards
 
 def already_downloaded(card: DownloadCard):
@@ -24,8 +21,7 @@ def already_downloaded(card: DownloadCard):
 def mark_as_downloaded(card: DownloadCard):
     """Opens tracker file to add an id to the downloaded list"""
 
-    cache = card_cache_path if not card.artwork else field_cache_path
+    cache = FIELD_CACHE_PATH if card.artwork else CARD_CACHE_PATH
 
-    cache_file = open(cache, mode="a+", encoding="utf8")
-    cache_file.write(f"{card.card_id}\n")
-    cache_file.close()
+    with open(cache, mode="a+", encoding="utf8") as cache_file:
+        cache_file.write(f"{card.card_id}\n")

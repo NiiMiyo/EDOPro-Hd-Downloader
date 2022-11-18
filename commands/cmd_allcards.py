@@ -1,6 +1,5 @@
-from command_handler import CommandHandler
 from commands.typing import CommandReturn, DownloadCard, DownloaderCommand
-from apiaccess import get_all_cards
+from web_access.ygoprodeck_api import get_all_cards
 
 
 def __cmd_all_cards_action(_: str) -> CommandReturn:
@@ -10,8 +9,8 @@ def __cmd_all_cards_action(_: str) -> CommandReturn:
     ]
 
 
-CommandHandler.add_command(DownloaderCommand(
+COMMAND_ALLCARDS = DownloaderCommand(
     name="allcards",
     help_text="downloads all cards",
     action=__cmd_all_cards_action
-))
+)

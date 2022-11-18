@@ -1,4 +1,3 @@
-from command_handler import CommandHandler
 from commands.typing import CommandReturn, DownloadCard, DownloaderCommand
 from commands.utils import get_args
 from input_handler import handle_input
@@ -14,9 +13,9 @@ def __cmd_force_action(user_input: str) -> CommandReturn:
         for c in cards
     ]
 
-CommandHandler.add_command(DownloaderCommand(
+COMMAND_FORCE = DownloaderCommand(
     name="force",
     shown_name="force <input>",
     help_text="executes <input> ignoring trackers (example: /force /allcards)",
     action=__cmd_force_action
-))
+)

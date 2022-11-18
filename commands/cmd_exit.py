@@ -1,4 +1,3 @@
-from command_handler import CommandHandler
 from commands.typing import CommandReturn, DownloaderCommand
 
 
@@ -7,8 +6,8 @@ def __cmd_exit_action(_: str) -> CommandReturn:
     exit(0)
 
 
-CommandHandler.add_command(DownloaderCommand(
+COMMAND_EXIT = DownloaderCommand(
     name="exit",
     help_text="closes the program",
     action=__cmd_exit_action
-))
+)

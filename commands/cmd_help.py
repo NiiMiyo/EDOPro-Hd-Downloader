@@ -25,8 +25,8 @@ def __cmd_help_action(_: str) -> CommandReturn:
     return []
 
 
-CommandHandler.add_command(DownloaderCommand(
+COMMAND_HELP = DownloaderCommand(
     name="help",
     help_text="see this text",
     action=__cmd_help_action
-))
+)

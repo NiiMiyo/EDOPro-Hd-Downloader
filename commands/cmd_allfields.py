@@ -1,7 +1,5 @@
-from command_handler import CommandHandler
 from commands.typing import DownloadCard, DownloaderCommand, CommandReturn
-from apiaccess import get_all_fields
-
+from web_access.ygoprodeck_api import get_all_fields
 
 def __cmd_all_fields_action(_: str) -> CommandReturn:
     return [
@@ -10,8 +8,8 @@ def __cmd_all_fields_action(_: str) -> CommandReturn:
     ]
 
 
-CommandHandler.add_command(DownloaderCommand(
+COMMAND_ALLFIELDS = DownloaderCommand(
     name="allfields",
     help_text="downloads all fields artworks",
     action=__cmd_all_fields_action
-))
+)

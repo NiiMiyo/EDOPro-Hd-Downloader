@@ -9,8 +9,8 @@ def __cmd_all(_: str) -> CommandReturn:
     return allcards.action(_) + allfields.action(_)  # type: ignore
 
 
-CommandHandler.add_command(DownloaderCommand(
+COMMAND_ALL = DownloaderCommand(
     name="all",
     help_text="downloads all cards images and all fields artworks",
     action=__cmd_all
-))
+)

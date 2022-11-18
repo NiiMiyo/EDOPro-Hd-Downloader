@@ -1,9 +1,16 @@
-# Yes, this is correct
-# I'm sorry
+from command_handler import CommandHandler
+from commands.cmd_allcards import COMMAND_ALLCARDS
+from commands.cmd_all import COMMAND_ALL
+from commands.cmd_allfields import COMMAND_ALLFIELDS
+from commands.cmd_exit import COMMAND_EXIT
+from commands.cmd_force import COMMAND_FORCE
+from commands.cmd_help import COMMAND_HELP
+
+
 def setup_commands():
-    import commands.cmd_allcards as _
-    import commands.cmd_allfields as _
-    import commands.cmd_exit as _
-    import commands.cmd_force as _
-    import commands.cmd_help as _
-    import commands.cmd_all as _
+	CommandHandler.add_command(COMMAND_ALL)
+	CommandHandler.add_command(COMMAND_ALLCARDS)
+	CommandHandler.add_command(COMMAND_ALLFIELDS)
+	CommandHandler.add_command(COMMAND_EXIT)
+	CommandHandler.add_command(COMMAND_FORCE)
+	CommandHandler.add_command(COMMAND_HELP)

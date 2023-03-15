@@ -83,8 +83,8 @@ def main():
             
             total_cards = len(cards)
             cards = remove_downloaded(cards)
-            # Using Threads to download 3 images at once
             
+            # Using Threads to download 3 images at once
             one_third = int((total_cards-1)/3)
 
             cards1 = cards[:one_third]

@@ -99,18 +99,17 @@ def main():
             # For the KeyboardInterrupt
             stopper = Queue()
             stopper.put(False)
+            
+            threads = []
+            
+            for i in range(0,5):
+                threads.append(Thread(target=down_loop, args=(cards1, total_cards, progress, stopper,)))
 
-            thread1 = Thread(target=down_loop, args=(cards1, total_cards, progress, stopper,))
-            thread2 = Thread(target=down_loop, args=(cards2, total_cards, progress, stopper,))
-            thread3 = Thread(target=down_loop, args=(cards3, total_cards, progress, stopper,))
+            for thread in threads:
+                thread.start()
 
-            thread1.start()
-            thread2.start()
-            thread3.start()
-
-            thread1.join()
-            thread2.join()
-            thread3.join()
+            for thread in threads:
+                thread.join()
 
             print("\n")
 

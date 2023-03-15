@@ -2,6 +2,7 @@
 .vscode/
 deck/
 pics/
+pics
 build/
 dist/
 bin/

@@ -36,7 +36,7 @@ def to_download(card: DownloadCard):
     if (card.force) or (not already_downloaded(card)):
         success = download_image(card)
         if success: mark_as_downloaded(card)
-        sleep(.5)
+        sleep(.2)
 
 
 def main():

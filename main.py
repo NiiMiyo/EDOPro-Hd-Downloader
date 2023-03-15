@@ -46,9 +46,11 @@ def down_loop(cards, total_cards, progression, stopper):
     for index, card in enumerate(cards, 1):
         # If KeyboardInterrupt
         stop = stopper.get()
-        print(stop)
         if stop:
+            stopper.put(True)
             break
+        # We have to put it back in Queue so the Programm doesn't freeze
+        stopper.put(False)
 
         progress = progression.get()
         to_download(card)

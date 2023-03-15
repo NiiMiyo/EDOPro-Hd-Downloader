@@ -9,6 +9,8 @@ from commands.typing import DownloadCard
 from web_access.downloader import download_image
 from tracker import (already_downloaded, mark_as_downloaded)
 
+from threading import Thread
+from queue import Queue
 
 def initialize():
     """Creates tracker files if they do not exist, setups all commands and
@@ -38,6 +40,17 @@ def to_download(card: DownloadCard):
         if success: mark_as_downloaded(card)
         sleep(.2)
 
+def down_loop(cards, total_cards, q):
+    # For each card, download
+    for index, card in enumerate(cards, 1):
+        progress = q.get()
+        to_download(card)
+
+        # Prints progress
+        progress += 1
+        q.put(progress)
+        percentage   = f"{((progress * 100) / total_cards):.2f}%"
+        print(f"Downloaded {progress} - {percentage}", end="\r")
 
 def main():
     initialize()
@@ -51,22 +64,37 @@ def main():
                 print("Deck or command not found.")
                 continue
 
+            # Using Threads to download 3 images at once
             total_cards = len(cards)
+            one_third = int((total_cards-1)/3)
 
-            # For each card, download
-            for index, card in enumerate(cards, 1):
-                to_download(card)
+            cards1 = cards[:one_third]
+            cards2 = cards[one_third:one_third*2]
+            cards3 = cards[one_third*2:]
 
-                # Prints progress
-                raw_progress = f"{index}/{total_cards}"
-                percentage   = f"{((index * 100) / total_cards):.2f}%"
-                print(f"Downloaded {raw_progress} - {percentage}", end="\r")
+
+            q = Queue()
+            progress = 0
+            q.put(progress)
+
+            thread1 = Thread(target=down_loop, args=(cards1, total_cards, q,))
+            thread2 = Thread(target=down_loop, args=(cards2, total_cards, q,))
+            thread3 = Thread(target=down_loop, args=(cards3, total_cards, q,))
+
+            thread1.start()
+            thread2.start()
+            thread3.start()
+
+            thread1.join()
+            thread2.join()
+            thread3.join()
 
             print("\n")
 
     # In case of interrupting the program with Ctrl+C
-    except KeyboardInterrupt: print("\n\nForcing program interruption...")
-
+    except KeyboardInterrupt:
+        print("\n\nForcing program interruption...")
+        quit()
     # In case of a not expected exception
     except Exception: print_exc()
 

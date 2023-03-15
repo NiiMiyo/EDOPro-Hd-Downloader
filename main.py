@@ -36,10 +36,9 @@ def initialize():
 def to_download(card: DownloadCard):
     """Handles if a card should be downloaded and downloads it."""
 
-    if (card.force) or (not already_downloaded(card)):
-        success = download_image(card)
-        if success: mark_as_downloaded(card)
-        sleep(.2)
+    success = download_image(card)
+    if success: mark_as_downloaded(card)
+    sleep(.2)
 
 def down_loop(cards, total_cards, progression, stopper):
     # For each card, download
@@ -61,6 +60,15 @@ def down_loop(cards, total_cards, progression, stopper):
         percentage   = f"{((progress * 100) / total_cards):.2f}%"
         print(f"Downloaded {progress}/{total_cards} - {percentage}", end="\r")
 
+def remove_downloaded(cards):
+    for index, card in enumerate(cards, 0):
+        # check if the card is already downloaded
+        if (not card.force) or (already_downloaded(card)):
+            # remove it
+            cards.pop(index)
+    
+    return cards
+
 def main():
     initialize()
 
@@ -72,9 +80,11 @@ def main():
             if cards is None:
                 print("Deck or command not found.")
                 continue
-
-            # Using Threads to download 3 images at once
+            
             total_cards = len(cards)
+            cards = remove_downloaded(cards)
+            # Using Threads to download 3 images at once
+            
             one_third = int((total_cards-1)/3)
 
             cards1 = cards[:one_third]
@@ -83,7 +93,8 @@ def main():
 
             # Put the progression variable in a Queue so the threads can safely manipulate it while running
             progress = Queue()
-            progress.put(0)
+            # In case stuff was already downloaded show it when printing progression
+            progress.put(total_cards - len(cards))
 
             # For the KeyboardInterrupt
             stopper = Queue()

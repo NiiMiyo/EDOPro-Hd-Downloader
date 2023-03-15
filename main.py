@@ -11,6 +11,7 @@ from tracker import (already_downloaded, mark_as_downloaded)
 
 from threading import Thread
 from queue import Queue
+from pprint import pprint
 
 def initialize():
     """Creates tracker files if they do not exist, setups all commands and
@@ -40,17 +41,23 @@ def to_download(card: DownloadCard):
         if success: mark_as_downloaded(card)
         sleep(.2)
 
-def down_loop(cards, total_cards, q):
+def down_loop(cards, total_cards, progression, stopper):
     # For each card, download
     for index, card in enumerate(cards, 1):
-        progress = q.get()
+        # If KeyboardInterrupt
+        stop = stopper.get()
+        print(stop)
+        if stop:
+            break
+
+        progress = progression.get()
         to_download(card)
 
         # Prints progress
         progress += 1
-        q.put(progress)
+        progression.put(progress)
         percentage   = f"{((progress * 100) / total_cards):.2f}%"
-        print(f"Downloaded {progress} - {percentage}", end="\r")
+        print(f"Downloaded {progress}/{total_cards} - {percentage}", end="\r")
 
 def main():
     initialize()
@@ -72,14 +79,17 @@ def main():
             cards2 = cards[one_third:one_third*2]
             cards3 = cards[one_third*2:]
 
+            # Put the progression variable in a Queue so the threads can safely manipulate it while running
+            progress = Queue()
+            progress.put(0)
 
-            q = Queue()
-            progress = 0
-            q.put(progress)
+            # For the KeyboardInterrupt
+            stopper = Queue()
+            stopper.put(False)
 
-            thread1 = Thread(target=down_loop, args=(cards1, total_cards, q,))
-            thread2 = Thread(target=down_loop, args=(cards2, total_cards, q,))
-            thread3 = Thread(target=down_loop, args=(cards3, total_cards, q,))
+            thread1 = Thread(target=down_loop, args=(cards1, total_cards, progress, stopper,))
+            thread2 = Thread(target=down_loop, args=(cards2, total_cards, progress, stopper,))
+            thread3 = Thread(target=down_loop, args=(cards3, total_cards, progress, stopper,))
 
             thread1.start()
             thread2.start()
@@ -94,6 +104,12 @@ def main():
     # In case of interrupting the program with Ctrl+C
     except KeyboardInterrupt:
         print("\n\nForcing program interruption...")
+
+        try:
+            stopper.put(True)
+        except:
+            print("No Downloads to stop")
+
         quit()
     # In case of a not expected exception
     except Exception: print_exc()

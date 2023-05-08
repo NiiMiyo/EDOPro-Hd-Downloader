@@ -40,3 +40,19 @@ def get_all_fields() -> list[int]:
 		print(f"Error fetching db.ygoprodeck.com: {type(e).__name__}\n{e}")
 
 	return list()
+
+def get_all_tokens() -> list[int];
+	"""
+	Return the ids of all Tokens in the `db.ygoprodeck.com` database
+	"""
+	
+	try:
+		response = make_request(
+			YGOPRODECK_CARDS_URL
+			params={"type": "token"}
+		)
+		return _get_ids_from_response(response)
+	except Exception as e:
+		print(f"Error fetching db.ygoprodeck.com: {type(e).__name__}\n{e}")
+
+	return list()

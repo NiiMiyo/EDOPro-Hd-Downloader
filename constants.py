@@ -1,4 +1,4 @@
-DOWNLOADER_VERSION = "2.1"
+DOWNLOADER_VERSION = "2.2"
 """Program version"""
 
 REQUEST_HEADERS    = {
@@ -26,3 +26,8 @@ SETUP_CREATION_FILES = (CARD_CACHE_PATH, FIELD_CACHE_PATH)
 
 SETUP_CREATION_FOLDERS = ("pics", "pics/field")
 """Folders needed on setup"""
+
+ID_CONVERSION: dict[int, int] = {
+	# Mecha Phantom Beast Token
+	904186: 31533705
+}

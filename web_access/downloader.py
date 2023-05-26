@@ -3,6 +3,7 @@ from os.path import join
 
 from commands.typing import DownloadCard
 from constants import IMAGES_BASE_URL
+from id_conversor import convert_id
 
 def download_image(card: DownloadCard) -> bool:
 	"""
@@ -19,7 +20,7 @@ def download_image(card: DownloadCard) -> bool:
 		store_at += "field/"
 	url += f"/{card.card_id}.jpg"
 
-	file_path = join(store_at, f"{card.card_id}.jpg")
+	file_path = join(store_at, f"{convert_id(card.card_id)}.jpg")
 	try:
 		res = requests.get(url)
 		with open(file_path, 'wb+') as f:

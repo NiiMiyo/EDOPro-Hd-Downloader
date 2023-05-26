@@ -41,14 +41,14 @@ def get_all_fields() -> list[int]:
 
 	return list()
 
-def get_all_tokens() -> list[int];
+def get_all_tokens() -> list[int]:
 	"""
 	Return the ids of all Tokens in the `db.ygoprodeck.com` database
 	"""
-	
+
 	try:
 		response = make_request(
-			YGOPRODECK_CARDS_URL
+			YGOPRODECK_CARDS_URL,
 			params={"type": "token"}
 		)
 		return _get_ids_from_response(response)

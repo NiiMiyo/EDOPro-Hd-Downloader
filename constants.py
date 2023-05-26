@@ -1,4 +1,4 @@
-DOWNLOADER_VERSION = "2.1"
+DOWNLOADER_VERSION = "2.2"
 """Program version"""
 
 REQUEST_HEADERS    = {

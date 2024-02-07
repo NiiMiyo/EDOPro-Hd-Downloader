@@ -1,8 +1,7 @@
-from os.path import exists
 from time import sleep
 from traceback import print_exc
-from commands.setup import setup_commands
-from constants import DOWNLOADER_VERSION, INPUT_STRING, SETUP_CREATION_FILES
+from commands.setup import setup_commands, setup_files, setup_folders
+from constants import INPUT_STRING, INTRO_STRING, SLEEP_TIME_BETWEEN_DOWNLOADS
 
 from input_handler import handle_input
 from commands.typing import DownloadCard
@@ -15,19 +14,10 @@ def initialize():
     introduces the program
     """
 
-    for f in SETUP_CREATION_FILES:
-        if not exists(f):
-            with open(f, "w+"):
-                # I only need that the files exist
-                pass
-
+    setup_files()
+    setup_folders()
     setup_commands()
-
-    print("\n".join([
-        f"EDOPro HD Downloader v{DOWNLOADER_VERSION}",
-        "Created by Nii Miyo",
-        "Type \"/help\" for help"
-    ]))
+    print(INTRO_STRING)
 
 
 def to_download(card: DownloadCard):
@@ -36,7 +26,7 @@ def to_download(card: DownloadCard):
     if (card.force) or (not already_downloaded(card)):
         success = download_image(card)
         if success: mark_as_downloaded(card)
-        sleep(.5)
+        sleep(SLEEP_TIME_BETWEEN_DOWNLOADS)
 
 
 def main():

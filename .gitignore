@@ -6,6 +6,7 @@ build/
 dist/
 bin/
 workpath_pyinstaller/
+edopro-hd-downloader-venv/
 
 hd_cards_downloader_tracker
 hd_fields_downloader_tracker

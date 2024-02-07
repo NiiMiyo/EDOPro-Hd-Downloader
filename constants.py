@@ -1,10 +1,15 @@
-DOWNLOADER_VERSION = "2.2"
+DOWNLOADER_VERSION = "2.3"
 """Program version"""
 
 REQUEST_HEADERS    = {
 	"User-Agent": f"NiiMiyo-EDOPro-HD-Downloader/{DOWNLOADER_VERSION}"
 }
 """Header to be used in an HTTP request"""
+
+INTRO_STRING = f"""EDOPro HD Downloader v{DOWNLOADER_VERSION}
+Created by Nii Miyo
+Type "/help" for help"""
+"""String to be used when starting the program"""
 
 INPUT_STRING = "Insert deck name (without .ydk) or command: "
 """String that appears at user input"""
@@ -24,8 +29,11 @@ FIELD_CACHE_PATH = "./hd_fields_downloader_tracker"
 SETUP_CREATION_FILES = (CARD_CACHE_PATH, FIELD_CACHE_PATH)
 """Files needed on setup"""
 
-SETUP_CREATION_FOLDERS = ("pics", "pics/field")
+SETUP_CREATION_FOLDERS = ("pics/field",)
 """Folders needed on setup"""
+
+SLEEP_TIME_BETWEEN_DOWNLOADS = 1 / 18
+"""Time in seconds that the program will wait before downloading the next card"""
 
 ID_CONVERSION: dict[int, int] = {
 	# Mecha Phantom Beast Token
